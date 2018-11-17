@@ -1,4 +1,6 @@
+import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 
 public class JogoDaVelha {
 	private final int TAM_TABULEIRO = 3;
@@ -6,29 +8,29 @@ public class JogoDaVelha {
 	private String jogador2;
 	private String[][] tabuleiro = new String[TAM_TABULEIRO][TAM_TABULEIRO];
 	private int lin,col,jog, contador = 0, vencedor, linmaq, colmaq;
-	FileWriter arq;
+	FileWriter jogada;
 
 	// Construtores
 	public JogoDaVelha(String j1, String j2) {
 		jogador1 = j1;
 		jogador2 = j2;
 		this.inicializar();
-//		try {
-//			arq = new FileWriter (new File("jogadas.txt"));
-//		} catch (IOException e) {
-//			System.out.println("arquivo não pode ser criado");
-//		}
+		try {
+			jogada = new FileWriter (new File("src/arquivoTexto/jogadas.txt"));
+		} catch (IOException e) {
+			System.out.println("arquivo não pode ser criado");
+		}
 	}
 
 	public JogoDaVelha(String j1) {
 		jogador1 = j1;
 		jogador2 = "Máquina";
 		this.inicializar();
-//		try {
-//			arq = new FileWriter (new File("jogadas.txt"));
-//		} catch (IOException e) {
-//			System.out.println("arquivo não pode ser criado");
-//		}
+		try {
+			jogada = new FileWriter (new File("src/arquivoTexto/jogadas.txt"));
+		} catch (IOException e) {
+			System.out.println("arquivo não pode ser criado");
+		}
 	}
 
 	public void inicializar() {
@@ -44,21 +46,34 @@ public class JogoDaVelha {
 		col = coluna-1;
 		jog = jogador;
 		
-		this.mostrarTabuleiro();
+		if(tabuleiro[lin][col] != "" || tabuleiro[lin][col] == "X" || tabuleiro[lin][col] == "O" ) {
+			try {
+				jogada.write("O jogador "+ jogador+" fez uma jogada inválida.\n" );
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		
-		if(tabuleiro[lin][col] != "" || tabuleiro[lin][col] == "X" || tabuleiro[lin][col] == "O" )
 			return false;	
-		
+		}
 		if(jogador == 1) {
 			tabuleiro[lin][col] = "X";
 			contador++;
+			try {
+				jogada.write("\nO jogador "+ jogador + " jogou na posicao: " + linha + "-" + coluna + "\n");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			return true;
 		}else{
 			tabuleiro[lin][col] = "O";
 			contador++;
+			try {
+				jogada.write("\nO jogador "+ jogador + " jogou na posicao: " + linha + "-" + coluna + "\n");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			return true;
 		}
-		
 }
 	private int random() {
 		return (int)(Math.random()*3);
@@ -74,16 +89,15 @@ public class JogoDaVelha {
 				 valido = true;
 				 lin = linmaq;
 				 col = colmaq;
+				 contador++;
+				 jog = 2;
+				 try {
+						jogada.write("\nA Máquina jogou na posicao" + linmaq + "-" + colmaq + "\n");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 			 } 
 		 }while(!valido);					
-	}
-	public void mostrarTabuleiro() {
-		
-		for(int i=0; i>3;i++) {
-			for(int j=0; j<3; j++) {
-				System.out.println(tabuleiro[i][j]+ "-");
-			}
-		}
 	}
 	
 	public int getUltimaLinha() {
@@ -103,7 +117,16 @@ public class JogoDaVelha {
 	}
 	
 	public int getResultado() {
+		 try {
+			jogada.write("\n   O vencedor foi " + this.getNomeJogador(vencedor) + "\n");
+			jogada.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 			return vencedor;		
+	}
+	public int getResultado2() {
+		return vencedor;
 	}
 	public boolean terminou() {
 

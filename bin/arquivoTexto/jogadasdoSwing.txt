@@ -1,0 +1,12 @@
+O jogador joao jogou na posição 0-0
+O jogador maria jogou na posição 1-1
+O jogador joao jogou na posição 2-1
+O jogador atual fez uma jogada inválida.
+O jogador maria jogou na posição 0-1
+O jogador joao jogou na posição 1-0
+O jogador maria jogou na posição 1-2
+O jogador joao jogou na posição 2-2
+O jogador maria jogou na posição 2-0
+O jogador joao jogou na posição 0-2
+
+   Ninguém ganhou. 
